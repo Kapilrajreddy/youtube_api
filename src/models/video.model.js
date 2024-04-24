@@ -5,11 +5,17 @@ import mongooseAggregatePaginate from 'mongoose-aggregate-paginate-v2';
 const videoSchema = new Schema(
   {
     videoFile: {
-      type: String,
+      type: {
+        url: String,
+        public_id: String,
+      },
       required: true,
     },
     thumbnail: {
-      type: String,
+      type: {
+        url: String,
+        public_id: String,
+      },
       required: true,
     },
     title: {
@@ -24,21 +30,23 @@ const videoSchema = new Schema(
       type: Number,
       required: true,
     },
-    views:{
-        type:Number,
-        default:0
+    views: {
+      type: Number,
+      default: 0,
     },
-    isPublished:{
-        type:Boolean,
-        default:true
+    isPublished: {
+      type: Boolean,
+      default: true,
     },
-    owner:{
-        type:Schema.Types.ObjectId,
-        ref:"User"
-    }
+    owner: {
+      type: Schema.Types.ObjectId,
+      ref: "User",
+    },
   },
   { timestamps: true }
 );
+
+videoSchema.index({ title: "text", description: "text" });
 
 videoSchema.plugin(mongooseAggregatePaginate);
 

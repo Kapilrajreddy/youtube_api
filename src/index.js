@@ -3,6 +3,7 @@
 import dotenv from 'dotenv'
 import connectDB from './db/index.js'
 import { app } from './app.js'
+import { Video } from './models/video.model.js'
 
 dotenv.config(
     {
@@ -12,9 +13,13 @@ dotenv.config(
 
 connectDB()
 .then(()=>{
-    app.listen(process.env.PORT || 8000, ()=>{
-        console.log(`Server is Running at port : ${process.env.PORT}`)
-    })
+    app
+      .listen(process.env.PORT || 8000, () => {
+        console.log(`Server is Running at port : ${process.env.PORT}`);
+      })
+     
+     return Video.createIndexes();
+     
 }).catch((err)=> {
     console.log("MongDB connection error !", err)
 })
